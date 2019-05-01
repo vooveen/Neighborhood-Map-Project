@@ -83,10 +83,10 @@ function populateInfoWindow(marker, infowindow) {
             }
         // When failed to retreive information 
         }).fail(function() {
-            content = content + "<div>Can't Get Information from Foursquare</div>";
+            content = content + "<div>Can't Get Data from Foursquare</div>";
         // Show windowInfo information
         }).always(function() {
-            let attribution = '<div> <a href="https://developer.foursquare.com/">Foursquare API used to retrieve informations</a></div>';
+            let attribution = '<div> <a href="https://developer.foursquare.com/">Foursquare API used to get Data</a></div>';
             infowindow.setContent(content + attribution);
         });
 
@@ -106,6 +106,11 @@ function bounceMarker(marker) {
     setTimeout(function(){
         marker.setAnimation(null);
     }, 500);
+}
+
+// Handle Google map api errors
+function handleMapsError() {
+    alert("Sorry, Google maps Can't be loaded right now !");
 }
 
 // The ViewModel
