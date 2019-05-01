@@ -4,46 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="static/js/knockout.js"></script>
+    <script src="static/js/model.js"></script>
+
     
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
 
     <title>NEIGHBORHOOD MAP</title>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <!-- Sidebar -->
-    <div class="d-flex" id="wrapper">
-        <!-- Sidebar -->
-        <div class="bg-dark bg-dark" id="sidebar-wrapper">
-            <div class="sidebar-heading text-light">NEIGHBORHOOD MAP</div>
-            <div class="list-group list-group-flush">
-        
-            </div>
-        </div>
-                    
-        <!-- Page Content -->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
-            <button class="btn btn-info" id="menu-toggle">☰</button>
-    
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                </ul>
-            </div>
-            </nav>
 
-            <div class="container-fluid">
-                <div id="map"></div>            
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container col">
+                    <!-- <h2 class="text-secondary" >☰</h2>
+                    <button type="button" class="btn btn-link" id="menu-toggle">☰</button> -->
+                    <button type="button" class="btn btn-light" id="menu-toggle">☰</button>
+
+                    <div class="row mt-3">
+                        <div class="culomn">
+                        </div>
+                    </div>
+                    <div class="text-light">NEIGHBORHOOD MAP</div>
+                </div>
+            </nav>
             </div>
-        </div>        
-    </div>
+
+            <div class="d-flex" id="wrapper">
+                <div class="bg-light" id="sidebar-wrapper">
+                    <input class="form-control mt-2" id="input" type="text" placeholder="ENTER A PLACE"
+                    data-bind="textInput: filterPlaces" autocomplete="off"/>
+                    <h1></h1>
+                    <div class="list-group text-center" data-bind="foreach: filtredPlaces">
+                        <a href="#" class="list-group-item list-group-item-action"  data-bind="text: title"></a>
+                    </div> 
+                </div>
+                <div class="container col">
+                    <div class = "card-deck" id="map">
+                    </div>
+                </div>
+            </div>
     
+
+    <script src="static/js/main.js"></script>
+
     <!-- Menu Toggle Script -->
     <script>
         $("#menu-toggle").click(function(e) {
@@ -55,5 +66,10 @@
     <!-- JavaScript Plugin for Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <!-- Google Map API -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiaIXSAPmA-amArY2borWo-3-9LHKcFdQ
+    &v=3&callback=initMap">
+    </script>
 </body>
 </html>
