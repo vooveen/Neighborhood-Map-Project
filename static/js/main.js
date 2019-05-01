@@ -81,7 +81,6 @@ function populateInfoWindow(marker, infowindow) {
                 content += '<div>'+name+'</div>';
                 let category = result.categories[0].name;
                 content += '<div><b>'+category+'</b></div>';
-                console.log(result);
                 let address = result.location.formattedAddress;
                 for (i =0; i < address.length; i++) {
                     content = content+address[i]+ ', ';
