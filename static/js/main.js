@@ -42,14 +42,15 @@ let Place = function(place){
     this.marker.addListener('click', function() {
         populateInfoWindow(this, infoWindow);
         map.panTo(this.getPosition());
+        bounceMarker(this);
     });
 
     // Show infoWindow when one of the plces in the list is clicked
     this.listInfoWindow = function(clicked) {
         populateInfoWindow(this.marker, infoWindow);
         map.panTo(this.marker.getPosition());
+        bounceMarker(this.marker);
     };
-    
 }
 
 // Populate  infowindow
@@ -97,6 +98,14 @@ function populateInfoWindow(marker, infowindow) {
     }
     // Open the infowindow
     infowindow.open(map, marker);
+}
+
+// Bounce effect
+function bounceMarker(marker) {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){
+        marker.setAnimation(null);
+    }, 500);
 }
 
 // The ViewModel
