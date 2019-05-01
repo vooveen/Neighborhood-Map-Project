@@ -59,13 +59,44 @@ function populateInfoWindow(marker, infowindow) {
         // Clear the infowindow content
         infowindow.setContent('');
         infowindow.marker = marker;
+
+        // Using Foursquare Api to retrieve places info
+        const clientId = '1VISNEBM0RONUYS245X32RNS2TKSSGEU3QZYLCHSIHZKKVAZ';
+        const clientSecret = 'AQ0B22SJINNAO414HFB2TQTQRUD13TU52LFMYLIMKXYM04NC';
+        let content = '<div><h2>' + marker.title + '</h2></div>';
+        let url = 'https://api.foursquare.com/v2/venues/search?v=20161016&client_id='+clientId+'&client_secret='+clientSecret+'&ll='+marker.position.lat()+','+marker.position.lng()+'&query='+marker.title;
+
+        // get JSON data from the foursquare api URL
+        $.getJSON(url).done(function(data) {
+            if (data.response.venues) {
+                let result = data.response.venues[0];
+                let name = result.name;
+                content += '<div>'+name+'</div>';
+                let category = result.categories[0].name;
+                content += '<div><b>'+category+'</b></div>';                
+                console.log(result);
+                let address = result.location.formattedAddress;
+                for (i =0; i < address.length; i++) {
+                    content = content+address[i]+ ', ';
+                }
+            }
+        // When failed to retreive information 
+        }).fail(function() {
+            content = content + "<div>Can't Get Information from Foursquare</div>";
+        // Show windowInfo information
+        }).always(function() {
+            let attribution = '<div> <a href="https://developer.foursquare.com/">Foursquare API used to retrieve informations</a></div>';
+            infowindow.setContent(content + attribution);
+        });
+
+
         // marker is cleared if the infowindow is closed
         infowindow.addListener('closeclick', function() {
         infowindow.marker = null;
         });
-        // Open the infowindow on the correct marker
-        infowindow.open(map, marker);
     }
+    // Open the infowindow
+    infowindow.open(map, marker);
 }
 
 // The ViewModel
