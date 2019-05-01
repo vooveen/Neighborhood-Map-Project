@@ -28,14 +28,16 @@ let Place = function(place){
     map.fitBounds(bounds);
 
     // Show or hide a marker
+    this.hideMarker = function() {
+        this.marker.setMap(null);
+    };
+    this.showMarker = function() {
+        this.marker.setMap(map);
+        bounds.extend(this.marker.position);
+        map.fitBounds(bounds);
+    };
     this.filterMarkers = function(show) {
-        if (show) {
-            this.marker.setMap(map);
-            bounds.extend(this.marker.position);
-            map.fitBounds(bounds);
-        } else {
-            this.marker.setMap(null);
-        }
+        show ? this.showMarker() : this.hideMarker();
     };
 
     // Show infoWindow when one of the markers is clicked
@@ -65,7 +67,11 @@ function populateInfoWindow(marker, infowindow) {
         const clientId = '1VISNEBM0RONUYS245X32RNS2TKSSGEU3QZYLCHSIHZKKVAZ';
         const clientSecret = 'AQ0B22SJINNAO414HFB2TQTQRUD13TU52LFMYLIMKXYM04NC';
         let content = '<div><h2>' + marker.title + '</h2></div>';
-        let url = 'https://api.foursquare.com/v2/venues/search?v=20161016&client_id='+clientId+'&client_secret='+clientSecret+'&ll='+marker.position.lat()+','+marker.position.lng()+'&query='+marker.title;
+        let url = 'https://api.foursquare.com/v2/venues/search?v=20161016';
+        url += '&client_id='+clientId;
+        url += '&client_secret='+clientSecret;
+        url += '&ll='+marker.position.lat()+','+marker.position.lng();
+        url += '&query='+marker.title;
 
         // get JSON data from the foursquare api URL
         $.getJSON(url).done(function(data) {
@@ -74,14 +80,14 @@ function populateInfoWindow(marker, infowindow) {
                 let name = result.name;
                 content += '<div>'+name+'</div>';
                 let category = result.categories[0].name;
-                content += '<div><b>'+category+'</b></div>';                
+                content += '<div><b>'+category+'</b></div>';
                 console.log(result);
                 let address = result.location.formattedAddress;
                 for (i =0; i < address.length; i++) {
                     content = content+address[i]+ ', ';
                 }
             }
-        // When failed to retreive information 
+        // When failed to retreive information
         }).fail(function() {
             content = content + "<div>Can't Get Data from Foursquare</div>";
         // Show windowInfo information
@@ -140,8 +146,8 @@ let ViewModel = function(){
         }
     );
 
-    /* When filtredPlaces input changes the boolean show is 
-    set to true or false and filterMarkers() func is called to 
+    /* When filtredPlaces input changes the boolean show is
+    set to true or false and filterMarkers() func is called to
     show or hide marker */
     this.filtredPlaces.subscribe(function (places) {
         ko.utils.arrayForEach(self.placeList(), function (place) {
