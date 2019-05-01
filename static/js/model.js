@@ -1,3 +1,4 @@
+// Model
 var places = [
     {
         title: 'Parc du Gouraya', location:{lat:36.768703, lng:5.086422}
