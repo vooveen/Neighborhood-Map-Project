@@ -6,7 +6,9 @@ A single-page application featuring a map of my favorite city. the functionality
 - a third-party APIs (Foursquare) is implemented to provide additional information about each of these locations.
 
 ## Preview of the application
-<img src="static/img/CapturedGif.gif">
+<img src="static/img/partOne-min.gif">
+<img src="static/img/partTwo-min.gif">
+<img src="static/img/partThree-min.gif">
 
 ## How to run the application
 ### Requirements
