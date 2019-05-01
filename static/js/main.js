@@ -1,6 +1,7 @@
 // Map variables
 let map;
 let bounds;
+let infoWindow;
 
 //Initialize the map
 function initMap(){
@@ -8,6 +9,7 @@ function initMap(){
         center: {lat:41.404484, lng:2.175728},
         zoom: 10
     });
+    infoWindow = new google.maps.InfoWindow();
     bounds = new google.maps.LatLngBounds();
     ko.applyBindings(new ViewModel())
 }
@@ -22,7 +24,6 @@ let Place = function(place){
         map: map,
         animation: google.maps.Animation.DROP,
     });
-
     bounds.extend(this.marker.position);
     map.fitBounds(bounds);
 
@@ -36,6 +37,29 @@ let Place = function(place){
             this.marker.setMap(null);
         }
     };
+
+    // Show infoWindow when the marker is clicked
+    this.marker.addListener('click', function() {
+        populateInfoWindow(this, infoWindow);
+        map.panTo(this.getPosition());
+    });
+    
+}
+
+// Populate  infowindow
+function populateInfoWindow(marker, infowindow) {
+    // Check if infowindow is opened or not in this marker
+    if (infowindow.marker != marker) {
+        // Clear the infowindow content
+        infowindow.setContent('');
+        infowindow.marker = marker;
+        // marker is cleared if the infowindow is closed
+        infowindow.addListener('closeclick', function() {
+        infowindow.marker = null;
+        });
+        // Open the infowindow on the correct marker
+        infowindow.open(map, marker);
+    }
 }
 
 // The ViewModel
