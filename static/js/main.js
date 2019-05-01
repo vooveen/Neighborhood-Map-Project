@@ -38,11 +38,17 @@ let Place = function(place){
         }
     };
 
-    // Show infoWindow when the marker is clicked
+    // Show infoWindow when one of the markers is clicked
     this.marker.addListener('click', function() {
         populateInfoWindow(this, infoWindow);
         map.panTo(this.getPosition());
     });
+
+    // Show infoWindow when one of the plces in the list is clicked
+    this.listInfoWindow = function(clicked) {
+        populateInfoWindow(this.marker, infoWindow);
+        map.panTo(this.marker.getPosition());
+    };
     
 }
 
